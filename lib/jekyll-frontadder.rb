@@ -1,33 +1,43 @@
-# This plugin adds up build hours from each build log entry and pushes a
-# running total on each post
-#
-# V1 only handles hour summary
-#
-# TODO: Extend to process multiple types of efforts
-module JekyllFrontAdder
+# This Jekyll Generator plugin looks for specified hashes in a post's front matter and adds them up.
+# The final result is stored into the site's data tree for use in layouts
+module Jekyll
   # Here's our work horse class
   class JekyllFrontAdderGen < Jekyll::Generator
-    def initialize(*)
-      @hours = { 'total' => 0 }
-      @parts = { 'total' => 0 }
-      @types = { 'total' => 0 }
-      @hours.default = 0
-      @parts.default = 0
-      @types.default = 0
-    end
-
+    # Called by Jekyll to run our plugin
     def generate(site)
+      # Pickup array of frontmatter things to add up
+      frontadd = site.config["frontadder"]
+      if frontadd == nil
+        Jekyll.logger.warn 'Frontadder: frontadder not defined in _config.yml, skipping'
+        return
+      end
+      Jekyll.logger.debug 'Frontadder: Will add listed hashes: ', frontadd
+
+      # Initialize hashes for each hash to add
+      frontadd.each do |addme|
+        site.data[addme] ||= {}
+      end
+
+      # For each post, loop through the list of hashes to add and do it.
       site.posts.docs.each do |post|
-        next if post.data['layout'] != 'buildlog'
         Jekyll.logger.debug 'Processing: ', post.url
-        posthours = post.data['hours']
-        @hours['total'] = @hours['total'] + posthours['total']
-        post.data['tothours'] = { 'total' => @hours['total'], 'part' => @parts, 'type' => @types }
+        frontadd.each do |addme|
+          next if ! post.data[addme].respond_to?(:merge)
+          site.data[addme] = addhashes(site.data[addme], post.data[addme])
+          post.data[addme]['runtotal'] = site.data[addme]
+        end
       end
     end
 
-    # This will add two hases together and return the result
+    private
+
+    # This will add two hases together and return the result - recursive
     def addhashes(h1, h2)
+      if (h1.respond_to?(:merge) && h2.respond_to?(:merge) )
+        return h1.merge(h2){|key, old, new| addhashes(old, new)}
+      else
+        return h1 + h2
+      end
     end
   end
 end
