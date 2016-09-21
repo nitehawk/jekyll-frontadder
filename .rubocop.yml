@@ -1,47 +1,29 @@
-Style/IfUnlessModifier:
-  MaxLineLength: 150
+inherit_gem:
+  jekyll: .rubocop.yml
 
-Metrics/LineLength:
-  Max: 146
+AllCops:
+  TargetRubyVersion: 1.9
+  Include:
+    - lib/*.rb
 
-Metrics/AbcSize:
-  Max: 87
+  Exclude:
+    - .rubocop.yml
+    - .codeclimate.yml
+    - .travis.yml
+    - .gitignore
+    - .rspec
 
-Metrics/MethodLength:
-  Max: 54
+    - Gemfile.lock
+    - CHANGELOG.md
+    - readme.md
+    - README.md
+    - Readme.md
+    - ReadMe.md
+    - COPYING
+    - LICENSE
 
-Metrics/CyclomaticComplexity:
-  Max: 12
-
-PerceivedComplexity:
-  Max: 14
-
-Style/GlobalVars:
-  AllowedVariables: [$GSL]
-
-Documentation:
-  Enabled: false
-
-Metrics/ClassLength:
-  Max: 170
-
-SingleLineBlockParams:
-  Enabled: false
-
-Lint/Eval:
-  Enabled: false
-
-Lint/AssignmentInCondition:
-  Enabled: false
-
-SignalException:
-  Enabled: false
-
-Style/FileName:
-  Enabled: false
-
-Style/MethodName:
-  Enabled: false
-
-Lint/UnusedBlockArgument:
-  Enabled: false
+    - test/**/*
+    - vendor/**/*
+    - features/**/*
+    - script/**/*
+    - spec/**/*
