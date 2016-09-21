@@ -4,6 +4,11 @@
 
 ### Minor Enhancements
 
+## 0.0.3 / 2016-09-21
+
+### Bug Fixes
+ * Push the final results to site.config, not site.data...
+
 ## 0.0.2 / 2016-09-21
 
 ### Major Enhancements

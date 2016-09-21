@@ -15,7 +15,7 @@ module Jekyll
 
       # Initialize hashes for each hash to add
       frontadd.each do |addme|
-        site.data[addme] ||= {}
+        site.config[addme] ||= {}
       end
 
       # For each post, loop through the list of hashes to add and do it.
@@ -23,8 +23,8 @@ module Jekyll
         Jekyll.logger.debug 'Processing: ', post.url
         frontadd.each do |addme|
           next unless post.data[addme].respond_to?(:merge)
-          site.data[addme] = addhashes(site.data[addme], post.data[addme])
-          post.data[addme]['runtotal'] = site.data[addme]
+          site.config[addme] = addhashes(site.config[addme], post.data[addme])
+          post.data[addme]['runtotal'] = site.config[addme]
         end
       end
     end
