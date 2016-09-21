@@ -7,7 +7,7 @@ module Jekyll
     def generate(site)
       # Pickup array of frontmatter things to add up
       frontadd = site.config["frontadder"]
-      if frontadd == nil
+      if frontadd.nil?
         Jekyll.logger.warn 'Frontadder: frontadder not defined in _config.yml, skipping'
         return
       end
@@ -22,7 +22,7 @@ module Jekyll
       site.posts.docs.each do |post|
         Jekyll.logger.debug 'Processing: ', post.url
         frontadd.each do |addme|
-          next if ! post.data[addme].respond_to?(:merge)
+          next unless post.data[addme].respond_to?(:merge)
           site.data[addme] = addhashes(site.data[addme], post.data[addme])
           post.data[addme]['runtotal'] = site.data[addme]
         end
@@ -33,8 +33,8 @@ module Jekyll
 
     # This will add two hases together and return the result - recursive
     def addhashes(h1, h2)
-      if (h1.respond_to?(:merge) && h2.respond_to?(:merge) )
-        return h1.merge(h2){|key, old, new| addhashes(old, new)}
+      if h1.respond_to?(:merge) && h2.respond_to?(:merge)
+        return h1.merge(h2) { |_key, old, new| addhashes(old, new) }
       else
         return h1 + h2
       end

@@ -27,3 +27,6 @@ AllCops:
     - features/**/*
     - script/**/*
     - spec/**/*
+
+Metrics/AbcSize:
+  Max: 45
