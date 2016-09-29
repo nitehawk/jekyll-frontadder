@@ -3,6 +3,7 @@
 Jekyll Front Adder is a module to add up the values of specified hashes from a post's front matter and add a running total back to the post's front matter.
 
 [![Build Status](https://travis-ci.org/nitehawk/jekyll-frontadder.svg)](https://travis-ci.org/nitehawk/jekyll-frontadder)
+[![GitHub version](https://badge.fury.io/gh/nitehawk%2Fjekyll-frontadder.svg)](https://badge.fury.io/gh/nitehawk%2Fjekyll-frontadder)
 
 ## Installation
 
